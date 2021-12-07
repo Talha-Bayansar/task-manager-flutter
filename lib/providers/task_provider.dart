@@ -27,4 +27,38 @@ class TaskProvider {
     List<Task> tasks = data.map((task) => Task.fromJson(task)).toList();
     return tasks;
   }
+
+  Future<List<dynamic>> fetchTasksUpcoming() async {
+    String token = SharedPrefs.instance.getString('jwt') ?? '';
+    Response response = await Dio().get(
+      taskUrl,
+      options: Options(headers: {
+        HttpHeaders.authorizationHeader: 'Bearer $token',
+      }),
+    );
+    return response.data;
+  }
+
+  Future<List<Task>> getTasksUpcoming() async {
+    List<dynamic> data = await fetchTasksUpcoming();
+    List<Task> tasks = data.map((task) => Task.fromJson(task)).toList();
+    return tasks;
+  }
+
+  Future<List<dynamic>> fetchTasksDone() async {
+    String token = SharedPrefs.instance.getString('jwt') ?? '';
+    Response response = await Dio().get(
+      '$taskUrl/done',
+      options: Options(headers: {
+        HttpHeaders.authorizationHeader: 'Bearer $token',
+      }),
+    );
+    return response.data;
+  }
+
+  Future<List<Task>> getTasksDone() async {
+    List<dynamic> data = await fetchTasksDone();
+    List<Task> tasks = data.map((task) => Task.fromJson(task)).toList();
+    return tasks;
+  }
 }

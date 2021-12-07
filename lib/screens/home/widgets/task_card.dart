@@ -70,6 +70,7 @@ class TaskCard extends StatelessWidget {
                 onPressed: () {},
                 icon: const Icon(Icons.check),
                 splashRadius: 20,
+                color: task.isChecked == true ? Colors.green : null,
               ),
             ],
           ),
