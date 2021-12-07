@@ -34,7 +34,7 @@ class MyApp extends StatelessWidget {
       initialRoute:
           SharedPrefs.instance.getString('jwt') != null ? '/' : '/login',
       routes: {
-        '/': (context) => HomeScreen(),
+        '/': (context) => const HomeScreen(),
         '/login': (context) => const LoginScreen(),
       },
     );

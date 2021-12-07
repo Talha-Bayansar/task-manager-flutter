@@ -17,9 +17,7 @@ class UserProvider {
     if (data['jwt'] != null) {
       SharedPrefs.instance.setString(
         'jwt',
-        json.encode(
-          data['jwt'],
-        ),
+        data['jwt'],
       );
       SharedPrefs.instance.setString(
         'user',
