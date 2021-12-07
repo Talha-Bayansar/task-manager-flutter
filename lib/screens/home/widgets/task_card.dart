@@ -8,13 +8,10 @@ class TaskCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    TextTheme textTheme = Theme.of(context).textTheme;
     return Container(
-      margin: const EdgeInsets.all(
-        16,
-      ),
-      padding: const EdgeInsets.all(
-        16,
-      ),
+      margin: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         borderRadius: const BorderRadius.all(
           Radius.circular(
@@ -26,30 +23,56 @@ class TaskCard extends StatelessWidget {
         ),
       ),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
+          Expanded(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Chip(
+                  label: Text(task.subject.title),
+                  backgroundColor: Colors.transparent,
+                  shape: RoundedRectangleBorder(
+                    side: const BorderSide(color: Colors.black, width: 1),
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 16.0),
+                  child: Text(task.description),
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      DateFormatter.getDate(task.deadline),
+                      style: textTheme.caption,
+                    ),
+                    Text(
+                      DateFormatter.getTime(task.deadline),
+                      style: textTheme.caption,
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
           Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Chip(
-                label: Text(task.subject.title),
-                backgroundColor: Colors.transparent,
+              IconButton(
+                onPressed: () {},
+                icon: const Icon(Icons.edit),
+                splashRadius: 20,
               ),
-              Text(task.description),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    DateFormatter.getDate(task.deadline),
-                  ),
-                  Text(
-                    DateFormatter.getTime(task.deadline),
-                  ),
-                ],
+              IconButton(
+                onPressed: () {},
+                icon: const Icon(Icons.check),
+                splashRadius: 20,
               ),
             ],
           ),
-          Column(),
         ],
       ),
     );
