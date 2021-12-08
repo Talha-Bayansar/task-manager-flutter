@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:task_manager/models/subject.dart';
 import 'package:task_manager/providers/subject_provider.dart';
 import 'package:task_manager/providers/task_provider.dart';
+import 'package:task_manager/screens/home/home_screen.dart';
 import 'package:task_manager/utillities/date_formatter.dart';
 import 'package:task_manager/widgets/custom_text_field.dart';
 import 'package:task_manager/widgets/submit_button.dart';
@@ -155,7 +156,11 @@ class CreateTaskScreenState extends ConsumerState<CreateTaskScreen> {
                     'subject': selectedSubject!.id,
                     'deadline': selectedDateTime.toIso8601String(),
                   });
-                  Navigator.pop(context);
+                  Navigator.pushNamedAndRemoveUntil(
+                    context,
+                    HomeScreen.routeName,
+                    (route) => false,
+                  );
                 } catch (e) {
                   throw 'Failed to create task';
                 }
