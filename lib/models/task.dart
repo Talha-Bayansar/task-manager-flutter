@@ -22,4 +22,10 @@ class Task {
       subject: Subject.fromJson(json['subject']),
     );
   }
+
+  Map<String, dynamic> toJsonDto() => {
+        'description': description,
+        'deadline': deadline,
+        'subject': subject.toJson(),
+      };
 }

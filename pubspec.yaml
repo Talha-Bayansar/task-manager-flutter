@@ -40,6 +40,7 @@ dependencies:
   beamer: ^0.14.1
   email_validator: ^2.0.1
   intl: ^0.17.0
+  animations: ^2.0.2
 
 dev_dependencies:
   flutter_test:

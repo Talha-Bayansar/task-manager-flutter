@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
@@ -60,5 +61,17 @@ class TaskProvider {
     List<dynamic> data = await fetchTasksDone();
     List<Task> tasks = data.map((task) => Task.fromJson(task)).toList();
     return tasks;
+  }
+
+  Future<dynamic> createTask(dynamic taskJson) async {
+    String token = SharedPrefs.instance.getString('jwt') ?? '';
+    Response response = await Dio().post(
+      taskUrl,
+      options: Options(headers: {
+        HttpHeaders.authorizationHeader: 'Bearer $token',
+      }),
+      data: jsonEncode(taskJson),
+    );
+    return response.data;
   }
 }
