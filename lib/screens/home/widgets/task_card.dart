@@ -1,5 +1,7 @@
+import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:task_manager/models/task.dart';
+import 'package:task_manager/screens/home/screens/update_task/update_task_screen.dart';
 import 'package:task_manager/utillities/date_formatter.dart';
 
 class TaskCard extends StatelessWidget {
@@ -61,10 +63,18 @@ class TaskCard extends StatelessWidget {
           Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              IconButton(
-                onPressed: () {},
-                icon: const Icon(Icons.edit),
-                splashRadius: 20,
+              OpenContainer(
+                closedShape: const CircleBorder(),
+                closedColor: Colors.transparent,
+                closedElevation: 0,
+                closedBuilder: (context, action) => IconButton(
+                  onPressed: () {
+                    action.call();
+                  },
+                  icon: const Icon(Icons.edit),
+                  splashRadius: 20,
+                ),
+                openBuilder: (context, action) => UpdateTaskScreen(task: task),
               ),
               IconButton(
                 onPressed: () {},

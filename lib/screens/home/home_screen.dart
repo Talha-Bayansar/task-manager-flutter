@@ -3,10 +3,10 @@ import 'dart:convert';
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:task_manager/models/user.dart';
-import 'package:task_manager/screens/create_task/create_task_screen.dart';
-import 'package:task_manager/screens/home/screens/tasks_done_screen/tasks_done_screen.dart';
-import 'package:task_manager/screens/home/screens/tasks_today_screen/tasks_today_screen.dart';
-import 'package:task_manager/screens/home/screens/tasks_upcoming_screen/tasks_upcoming_screen.dart';
+import 'package:task_manager/screens/home/screens/create_task/create_task_screen.dart';
+import 'package:task_manager/screens/home/screens/tasks_done/tasks_done_screen.dart';
+import 'package:task_manager/screens/home/screens/tasks_today/tasks_today_screen.dart';
+import 'package:task_manager/screens/home/screens/tasks_upcoming/tasks_upcoming_screen.dart';
 import 'package:task_manager/utillities/shared_prefs.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -101,7 +101,7 @@ class _HomeScreenState extends State<HomeScreen> {
           },
           child: const Icon(Icons.add),
         ),
-        openBuilder: (context, action) => CreateTaskScreen(),
+        openBuilder: (context, action) => const CreateTaskScreen(),
       ),
       drawer: Drawer(
         child: ListView(

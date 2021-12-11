@@ -74,4 +74,16 @@ class TaskProvider {
     );
     return response.data;
   }
+
+  Future<dynamic> updateTask(String id, dynamic taskJson) async {
+    String token = SharedPrefs.instance.getString('jwt') ?? '';
+    Response response = await Dio().put(
+      '$taskUrl/$id',
+      options: Options(headers: {
+        HttpHeaders.authorizationHeader: 'Bearer $token',
+      }),
+      data: jsonEncode(taskJson),
+    );
+    return response.data;
+  }
 }
