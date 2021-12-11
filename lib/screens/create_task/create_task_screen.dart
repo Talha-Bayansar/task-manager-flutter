@@ -4,9 +4,7 @@ import 'package:task_manager/models/subject.dart';
 import 'package:task_manager/providers/subject_provider.dart';
 import 'package:task_manager/providers/task_provider.dart';
 import 'package:task_manager/screens/home/home_screen.dart';
-import 'package:task_manager/utillities/date_formatter.dart';
-import 'package:task_manager/widgets/custom_text_field.dart';
-import 'package:task_manager/widgets/submit_button.dart';
+import 'package:task_manager/widgets/task_form.dart';
 
 class CreateTaskScreen extends ConsumerStatefulWidget {
   const CreateTaskScreen({Key? key}) : super(key: key);
@@ -23,7 +21,7 @@ class CreateTaskScreenState extends ConsumerState<CreateTaskScreen> {
   TimeOfDay selectedTime = TimeOfDay.now();
   DateTime selectedDateTime = DateTime.now();
 
-  Future<void> _selectDate(BuildContext context) async {
+  Future<void> selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
         context: context,
         initialDate: selectedDate,
@@ -43,7 +41,7 @@ class CreateTaskScreenState extends ConsumerState<CreateTaskScreen> {
     }
   }
 
-  Future<void> _selectTime(BuildContext context) async {
+  Future<void> selectTime(BuildContext context) async {
     final TimeOfDay? picked = await showTimePicker(
       context: context,
       initialTime: selectedTime,
@@ -68,6 +66,29 @@ class CreateTaskScreenState extends ConsumerState<CreateTaskScreen> {
     }
   }
 
+  void handleChangeSubject(Subject? newSubject) {
+    setState(() {
+      selectedSubject = newSubject;
+    });
+  }
+
+  Future<void> handleSubmit() async {
+    try {
+      await ref.read(taskProvider).createTask({
+        'description': descriptionController.text,
+        'subject': selectedSubject!.id,
+        'deadline': selectedDateTime.toIso8601String(),
+      });
+      Navigator.pushNamedAndRemoveUntil(
+        context,
+        HomeScreen.routeName,
+        (route) => false,
+      );
+    } catch (e) {
+      throw 'Failed to create task';
+    }
+  }
+
   Future<void> initSubjects() async {
     List<Subject> fetchedSubjects =
         await ref.read(subjectProvider).getSubjects();
@@ -89,85 +110,16 @@ class CreateTaskScreenState extends ConsumerState<CreateTaskScreen> {
       appBar: AppBar(
         title: const Text("Nieuwe taak"),
       ),
-      body: Form(
-        child: ListView(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          children: [
-            const SizedBox(
-              height: 40,
-            ),
-            DropdownButton<Subject>(
-              value: selectedSubject,
-              onChanged: (Subject? newSubject) {
-                setState(() {
-                  selectedSubject = newSubject;
-                });
-              },
-              isExpanded: true,
-              items: subjects
-                  .map(
-                    (subject) => DropdownMenuItem<Subject>(
-                      child: Text(subject.title),
-                      value: subject,
-                    ),
-                  )
-                  .toList(),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            CustomTextField(
-              label: "Description",
-              controller: descriptionController,
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            OutlinedButton(
-              onPressed: () async {
-                await _selectDate(context);
-              },
-              child: const Text('Selecteer datum'),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            OutlinedButton(
-              onPressed: () async {
-                await _selectTime(context);
-              },
-              child: const Text('Selecteer tijd'),
-            ),
-            Text(
-              DateFormatter.getDateTime(
-                selectedDateTime.toIso8601String(),
-              ),
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            SubmitButton(
-              title: 'Aanmaken',
-              onPressed: () async {
-                try {
-                  await ref.read(taskProvider).createTask({
-                    'description': descriptionController.text,
-                    'subject': selectedSubject!.id,
-                    'deadline': selectedDateTime.toIso8601String(),
-                  });
-                  Navigator.pushNamedAndRemoveUntil(
-                    context,
-                    HomeScreen.routeName,
-                    (route) => false,
-                  );
-                } catch (e) {
-                  throw 'Failed to create task';
-                }
-              },
-            )
-          ],
-        ),
+      body: TaskForm(
+        descriptionController: descriptionController,
+        onChangedSubject: handleChangeSubject,
+        onSubmit: handleSubmit,
+        selectDate: selectDate,
+        selectTime: selectTime,
+        selectedDateTime: selectedDateTime,
+        selectedSubject: selectedSubject,
+        subjects: subjects,
+        submitButtonText: 'Aanmaken',
       ),
     );
   }
