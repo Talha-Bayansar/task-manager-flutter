@@ -34,6 +34,11 @@ class TasksDoneScreen extends StatelessWidget {
                     child: Text('Er zijn geen taken gevonden die klaar zijn.'),
                   );
                 }
+                if (tasks.isEmpty) {
+                  return const Center(
+                    child: Text('Er zijn geen taken die klaar zijn.'),
+                  );
+                }
                 return ListView.builder(
                   itemCount: tasks.length,
                   itemBuilder: (context, i) => TaskCard(task: tasks[i]),

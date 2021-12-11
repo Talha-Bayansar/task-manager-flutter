@@ -35,6 +35,11 @@ class TasksUpcomingScreen extends StatelessWidget {
                         'Er zijn geen taken gevonden voor de komende dagen.'),
                   );
                 }
+                if (tasks.isEmpty) {
+                  return const Center(
+                    child: Text('Er zijn geen taken voor de komende dagen.'),
+                  );
+                }
                 return ListView.builder(
                   itemCount: tasks.length,
                   itemBuilder: (context, i) => TaskCard(task: tasks[i]),

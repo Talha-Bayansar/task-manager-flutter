@@ -34,6 +34,11 @@ class TasksTodayScreen extends StatelessWidget {
                     child: Text('Er zijn geen taken gevonden voor vandaag.'),
                   );
                 }
+                if (tasks.isEmpty) {
+                  return const Center(
+                    child: Text('Er zijn geen taken voor vandaag.'),
+                  );
+                }
                 return ListView.builder(
                   itemCount: tasks.length,
                   itemBuilder: (context, i) => TaskCard(task: tasks[i]),
