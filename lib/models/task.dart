@@ -28,4 +28,11 @@ class Task {
         'deadline': deadline,
         'subject': subject.toJson(),
       };
+
+  Map<String, dynamic> toCheckJsonDto() => {
+        'description': description,
+        'deadline': deadline,
+        'subject': subject.toJson(),
+        'isChecked': !isChecked,
+      };
 }

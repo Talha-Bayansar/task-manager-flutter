@@ -1,6 +1,8 @@
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:task_manager/models/task.dart';
+import 'package:task_manager/providers/task_provider.dart';
 import 'package:task_manager/screens/home/screens/update_task/update_task_screen.dart';
 import 'package:task_manager/utillities/date_formatter.dart';
 
@@ -76,12 +78,18 @@ class TaskCard extends StatelessWidget {
                 ),
                 openBuilder: (context, action) => UpdateTaskScreen(task: task),
               ),
-              IconButton(
-                onPressed: () {},
-                icon: const Icon(Icons.check),
-                splashRadius: 20,
-                color: task.isChecked == true ? Colors.green : null,
-              ),
+              Consumer(builder: (context, ref, child) {
+                return IconButton(
+                  onPressed: () {
+                    ref
+                        .read(taskProvider)
+                        .updateTask(task.id, task.toCheckJsonDto());
+                  },
+                  icon: const Icon(Icons.check),
+                  splashRadius: 20,
+                  color: task.isChecked == true ? Colors.green : null,
+                );
+              }),
             ],
           ),
         ],
