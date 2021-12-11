@@ -32,7 +32,7 @@ class TaskProvider {
   Future<List<dynamic>> fetchTasksUpcoming() async {
     String token = SharedPrefs.instance.getString('jwt') ?? '';
     Response response = await Dio().get(
-      taskUrl,
+      '$taskUrl/upcoming',
       options: Options(headers: {
         HttpHeaders.authorizationHeader: 'Bearer $token',
       }),

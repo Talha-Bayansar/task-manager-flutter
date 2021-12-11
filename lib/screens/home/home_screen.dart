@@ -107,9 +107,17 @@ class _HomeScreenState extends State<HomeScreen> {
         child: ListView(
           children: [
             ListTile(
-              onTap: () {},
-              title: const Text('Tasks'),
-            )
+              onTap: () {
+                Navigator.pop(context);
+              },
+              title: const Text('Taken'),
+            ),
+            ListTile(
+              onTap: () {
+                Navigator.pop(context);
+              },
+              title: const Text('Onderwerpen'),
+            ),
           ],
         ),
       ),
