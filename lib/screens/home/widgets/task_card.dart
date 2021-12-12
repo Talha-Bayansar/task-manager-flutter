@@ -35,7 +35,7 @@ class _TaskCardState extends State<TaskCard> {
           ),
         ),
         color: Color(
-          int.parse('0xff${int.parse(task!.subject.color)}'),
+          int.parse(task!.subject.color),
         ),
       ),
       child: Row(

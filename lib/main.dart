@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:task_manager/screens/authentication/login/login_screen.dart';
 import 'package:task_manager/screens/home/home_screen.dart';
+import 'package:task_manager/screens/subjects/subjects_screen.dart';
 import 'package:task_manager/theme/colors.dart';
 import 'package:task_manager/utillities/shared_prefs.dart';
 
@@ -36,6 +37,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (context) => const HomeScreen(),
         '/login': (context) => const LoginScreen(),
+        '/subjects': (context) => const SubjectsScreen(),
       },
     );
   }
