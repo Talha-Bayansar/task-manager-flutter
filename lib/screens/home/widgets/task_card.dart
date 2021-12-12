@@ -6,9 +6,21 @@ import 'package:task_manager/providers/task_provider.dart';
 import 'package:task_manager/screens/home/screens/update_task/update_task_screen.dart';
 import 'package:task_manager/utillities/date_formatter.dart';
 
-class TaskCard extends StatelessWidget {
+class TaskCard extends StatefulWidget {
   final Task task;
   const TaskCard({Key? key, required this.task}) : super(key: key);
+
+  @override
+  State<TaskCard> createState() => _TaskCardState();
+}
+
+class _TaskCardState extends State<TaskCard> {
+  Task? task;
+  @override
+  void initState() {
+    task = widget.task;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +35,7 @@ class TaskCard extends StatelessWidget {
           ),
         ),
         color: Color(
-          int.parse('0xff${int.parse(task.subject.color)}'),
+          int.parse('0xff${int.parse(task!.subject.color)}'),
         ),
       ),
       child: Row(
@@ -35,7 +47,7 @@ class TaskCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Chip(
-                  label: Text(task.subject.title),
+                  label: Text(task!.subject.title),
                   backgroundColor: Colors.transparent,
                   shape: RoundedRectangleBorder(
                     side: const BorderSide(color: Colors.black, width: 1),
@@ -44,17 +56,17 @@ class TaskCard extends StatelessWidget {
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 16.0),
-                  child: Text(task.description),
+                  child: Text(task!.description),
                 ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      DateFormatter.getDate(task.deadline),
+                      DateFormatter.getDate(task!.deadline),
                       style: textTheme.caption,
                     ),
                     Text(
-                      DateFormatter.getTime(task.deadline),
+                      DateFormatter.getTime(task!.deadline),
                       style: textTheme.caption,
                     ),
                   ],
@@ -76,18 +88,21 @@ class TaskCard extends StatelessWidget {
                   icon: const Icon(Icons.edit),
                   splashRadius: 20,
                 ),
-                openBuilder: (context, action) => UpdateTaskScreen(task: task),
+                openBuilder: (context, action) => UpdateTaskScreen(task: task!),
               ),
               Consumer(builder: (context, ref, child) {
                 return IconButton(
                   onPressed: () {
+                    setState(() {
+                      task!.isChecked = !task!.isChecked;
+                    });
                     ref
                         .read(taskProvider)
-                        .updateTask(task.id, task.toCheckJsonDto());
+                        .updateTask(task!.id, task!.toJsonDto());
                   },
                   icon: const Icon(Icons.check),
                   splashRadius: 20,
-                  color: task.isChecked == true ? Colors.green : null,
+                  color: task!.isChecked == true ? Colors.green : null,
                 );
               }),
             ],

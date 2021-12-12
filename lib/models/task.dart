@@ -2,7 +2,7 @@ import 'package:task_manager/models/subject.dart';
 
 class Task {
   final String id, description, deadline;
-  final bool isChecked;
+  bool isChecked;
   final Subject subject;
 
   Task({
@@ -26,7 +26,8 @@ class Task {
   Map<String, dynamic> toJsonDto() => {
         'description': description,
         'deadline': deadline,
-        'subject': subject.toJson(),
+        'subject': subject.id,
+        'isChecked': isChecked,
       };
 
   Map<String, dynamic> toCheckJsonDto() => {
