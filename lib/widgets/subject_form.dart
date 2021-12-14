@@ -7,11 +7,15 @@ class SubjectForm extends StatefulWidget {
   final TextEditingController nameController;
   final Key formKey;
   final void Function(Color color)? onSubmit;
+  final String submitButtonText;
+  final Color? initialcolor;
   const SubjectForm({
     Key? key,
     required this.nameController,
     required this.formKey,
     required this.onSubmit,
+    required this.submitButtonText,
+    this.initialcolor,
   }) : super(key: key);
 
   @override
@@ -20,6 +24,15 @@ class SubjectForm extends StatefulWidget {
 
 class _SubjectFormState extends State<SubjectForm> {
   Color selectedColor = const Color(0xff443a49);
+
+  @override
+  void initState() {
+    if (widget.initialcolor != null) {
+      selectedColor = widget.initialcolor!;
+    }
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -49,7 +62,7 @@ class _SubjectFormState extends State<SubjectForm> {
             height: 20,
           ),
           SubmitButton(
-            title: 'Aanmaken',
+            title: widget.submitButtonText,
             onPressed: () {
               widget.onSubmit!(selectedColor);
             },

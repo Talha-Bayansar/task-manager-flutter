@@ -44,4 +44,18 @@ class SubjectProvider {
     );
     return response.data;
   }
+
+  Future<dynamic> updateSubject(String id, dynamic subjectJson) async {
+    String token = SharedPrefs.instance.getString('jwt') ?? '';
+    Response response = await Dio().put(
+      '$subjectUrl/$id',
+      options: Options(
+        headers: {
+          HttpHeaders.authorizationHeader: 'Bearer $token',
+        },
+      ),
+      data: jsonEncode(subjectJson),
+    );
+    return response.data;
+  }
 }
