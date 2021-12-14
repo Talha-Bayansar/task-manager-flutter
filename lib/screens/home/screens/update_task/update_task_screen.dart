@@ -91,6 +91,45 @@ class UpdateTaskScreenState extends ConsumerState<UpdateTaskScreen> {
     }
   }
 
+  Future<void> handleDelete() async {
+    try {
+      await ref.read(taskProvider).deleteTask(widget.task.id);
+      Navigator.pushNamedAndRemoveUntil(
+        context,
+        HomeScreen.routeName,
+        (route) => false,
+      );
+    } catch (e) {
+      throw 'Failed to delete';
+    }
+  }
+
+  void showDeleteDialog(context) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('Ben je zeker dat je deze taak wilt verwijderen?'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text('Annuleren'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+                handleDelete();
+              },
+              child: const Text('Verwijderen'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   Future<void> initSubjects() async {
     List<Subject> fetchedSubjects =
         await ref.read(subjectProvider).getSubjects();
@@ -122,6 +161,9 @@ class UpdateTaskScreenState extends ConsumerState<UpdateTaskScreen> {
       ),
       body: TaskForm(
         descriptionController: descriptionController,
+        onDelete: () {
+          showDeleteDialog(context);
+        },
         onChangedSubject: handleChangeSubject,
         onSubmit: handleSubmit,
         selectDate: selectDate,

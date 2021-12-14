@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:task_manager/widgets/custom_text_field.dart';
+import 'package:task_manager/widgets/delete_button.dart';
 import 'package:task_manager/widgets/submit_button.dart';
 
 class SubjectForm extends StatefulWidget {
   final TextEditingController nameController;
   final Key formKey;
   final void Function(Color color)? onSubmit;
+  final void Function()? onDelete;
   final String submitButtonText;
   final Color? initialcolor;
   const SubjectForm({
@@ -15,6 +17,7 @@ class SubjectForm extends StatefulWidget {
     required this.formKey,
     required this.onSubmit,
     required this.submitButtonText,
+    this.onDelete,
     this.initialcolor,
   }) : super(key: key);
 
@@ -67,6 +70,14 @@ class _SubjectFormState extends State<SubjectForm> {
               widget.onSubmit!(selectedColor);
             },
           ),
+          SizedBox(
+            height: widget.onDelete != null ? 20 : 0,
+          ),
+          widget.onDelete != null
+              ? DeleteButton(
+                  onPressed: widget.onDelete,
+                )
+              : const SizedBox(),
         ],
       ),
     );

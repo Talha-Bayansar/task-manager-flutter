@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:task_manager/models/subject.dart';
 import 'package:task_manager/utillities/date_formatter.dart';
 import 'package:task_manager/widgets/custom_text_field.dart';
+import 'package:task_manager/widgets/delete_button.dart';
 import 'package:task_manager/widgets/submit_button.dart';
 
 class TaskForm extends StatelessWidget {
@@ -9,6 +10,7 @@ class TaskForm extends StatelessWidget {
   final void Function(Subject?)? onChangedSubject;
   final List<Subject> subjects;
   final TextEditingController descriptionController;
+  final void Function()? onDelete;
   final Function selectTime;
   final Function selectDate;
   final DateTime selectedDateTime;
@@ -25,6 +27,7 @@ class TaskForm extends StatelessWidget {
     required this.selectedSubject,
     required this.subjects,
     required this.submitButtonText,
+    this.onDelete,
   }) : super(key: key);
 
   @override
@@ -87,7 +90,15 @@ class TaskForm extends StatelessWidget {
           SubmitButton(
             title: submitButtonText,
             onPressed: onSubmit,
-          )
+          ),
+          SizedBox(
+            height: onDelete != null ? 20 : 0,
+          ),
+          onDelete != null
+              ? DeleteButton(
+                  onPressed: onDelete,
+                )
+              : const SizedBox(),
         ],
       ),
     );

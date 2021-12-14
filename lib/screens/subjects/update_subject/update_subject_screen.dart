@@ -29,6 +29,46 @@ class UpdateSubjectScreenState extends ConsumerState<UpdateSubjectScreen> {
     }
   }
 
+  Future<void> handleDelete() async {
+    try {
+      await ref.read(subjectProvider).deleteTask(widget.subject.id);
+      Navigator.pushNamedAndRemoveUntil(
+        context,
+        SubjectsScreen.routeName,
+        (route) => false,
+      );
+    } catch (e) {
+      throw 'Failed to delete';
+    }
+  }
+
+  void showDeleteDialog(context) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title:
+              const Text('Ben je zeker dat je dit onderwerp wilt verwijderen?'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text('Annuleren'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+                handleDelete();
+              },
+              child: const Text('Verwijderen'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   void initState() {
     nameController.text = widget.subject.title;
@@ -44,6 +84,9 @@ class UpdateSubjectScreenState extends ConsumerState<UpdateSubjectScreen> {
       ),
       body: SubjectForm(
         submitButtonText: 'Wijzigen',
+        onDelete: () {
+          showDeleteDialog(context);
+        },
         nameController: nameController,
         formKey: _formKey,
         initialcolor: Color(int.parse(subject!.color)),

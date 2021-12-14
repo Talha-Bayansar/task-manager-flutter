@@ -86,4 +86,15 @@ class TaskProvider {
     );
     return response.data;
   }
+
+  Future<dynamic> deleteTask(String id) async {
+    String token = SharedPrefs.instance.getString('jwt') ?? '';
+    Response response = await Dio().delete(
+      '$taskUrl/$id',
+      options: Options(headers: {
+        HttpHeaders.authorizationHeader: 'Bearer $token',
+      }),
+    );
+    return response.data;
+  }
 }

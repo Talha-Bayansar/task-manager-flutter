@@ -58,4 +58,15 @@ class SubjectProvider {
     );
     return response.data;
   }
+
+  Future<dynamic> deleteTask(String id) async {
+    String token = SharedPrefs.instance.getString('jwt') ?? '';
+    Response response = await Dio().delete(
+      '$subjectUrl/$id',
+      options: Options(headers: {
+        HttpHeaders.authorizationHeader: 'Bearer $token',
+      }),
+    );
+    return response.data;
+  }
 }
