@@ -1,7 +1,7 @@
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:task_manager/screens/home/home_screen.dart';
-import 'package:task_manager/screens/home/screens/create_task/create_task_screen.dart';
+import 'package:task_manager/screens/subjects/create_subject/create_subject.dart';
 import 'package:task_manager/screens/subjects/widgets/subjects_body.dart';
 import 'package:task_manager/utillities/shared_prefs.dart';
 
@@ -59,7 +59,7 @@ class SubjectsScreen extends StatelessWidget {
           },
           child: const Icon(Icons.add),
         ),
-        openBuilder: (context, action) => const CreateTaskScreen(),
+        openBuilder: (context, action) => CreateSubjectScreen(),
       ),
       drawer: Drawer(
         child: ListView(

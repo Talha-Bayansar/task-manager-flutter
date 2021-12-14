@@ -39,6 +39,7 @@ class TaskForm extends StatelessWidget {
           DropdownButton<Subject>(
             value: selectedSubject,
             onChanged: onChangedSubject,
+            borderRadius: BorderRadius.circular(16),
             isExpanded: true,
             items: subjects
                 .map(
