@@ -5,6 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:task_manager/models/task.dart';
 import 'package:task_manager/utillities/constants.dart';
+import 'package:task_manager/utillities/date_formatter.dart';
 import 'package:task_manager/utillities/shared_prefs.dart';
 
 final taskProvider = Provider<TaskProvider>((ref) => TaskProvider());
@@ -32,7 +33,7 @@ class TaskProvider {
   Future<List<dynamic>> fetchTasksUpcoming() async {
     String token = SharedPrefs.instance.getString('jwt') ?? '';
     Response response = await Dio().get(
-      '$taskUrl/upcoming',
+      taskUrl,
       options: Options(headers: {
         HttpHeaders.authorizationHeader: 'Bearer $token',
       }),
@@ -40,9 +41,11 @@ class TaskProvider {
     return response.data;
   }
 
-  Future<List<Task>> getTasksUpcoming() async {
+  Future<List<Task?>> getTasksUpcoming() async {
     List<dynamic> data = await fetchTasksUpcoming();
-    List<Task> tasks = data.map((task) => Task.fromJson(task)).toList();
+    List<Task?> tasks = data.map((task) {
+      return Task.fromJson(task);
+    }).toList();
     return tasks;
   }
 

@@ -13,7 +13,7 @@ class TasksUpcomingScreen extends StatelessWidget {
       builder: (context, ref, child) {
         return FutureBuilder(
           future: ref.read(taskProvider).getTasksUpcoming(),
-          builder: (context, AsyncSnapshot<List<Task>> snapshot) {
+          builder: (context, AsyncSnapshot<List<Task?>> snapshot) {
             switch (snapshot.connectionState) {
               case ConnectionState.active:
                 return const Center(
@@ -28,7 +28,7 @@ class TasksUpcomingScreen extends StatelessWidget {
                   child: Text('Je hebt geen internet.'),
                 );
               case ConnectionState.done:
-                List<Task>? tasks = snapshot.data;
+                List<Task?>? tasks = snapshot.data;
                 if (tasks == null) {
                   return const Center(
                     child: Text(
@@ -42,7 +42,7 @@ class TasksUpcomingScreen extends StatelessWidget {
                 }
                 return ListView.builder(
                   itemCount: tasks.length,
-                  itemBuilder: (context, i) => TaskCard(task: tasks[i]),
+                  itemBuilder: (context, i) => TaskCard(task: tasks[i]!),
                 );
             }
           },

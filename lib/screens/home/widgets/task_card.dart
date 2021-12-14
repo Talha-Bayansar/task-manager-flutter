@@ -102,7 +102,13 @@ class _TaskCardState extends State<TaskCard> {
                   },
                   icon: const Icon(Icons.check),
                   splashRadius: 20,
-                  color: task!.isChecked == true ? Colors.green : null,
+                  color: task!.isChecked == true
+                      ? Colors.green
+                      : DateFormatter.calculateDifference(
+                                  DateTime.parse(task!.deadline)) >=
+                              0
+                          ? null
+                          : Colors.red,
                 );
               }),
             ],
